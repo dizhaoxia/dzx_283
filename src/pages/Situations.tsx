@@ -2,10 +2,13 @@ import { useState } from 'react';
 import NavBar from '@/components/NavBar';
 import { SITUATIONS, EMOTIONS } from '@/data/constants';
 import { cn } from '@/lib/utils';
+import { useEmotionStore } from '@/store/useEmotionStore';
+import { speakText } from '@/utils';
 
 export default function Situations() {
   const [currentSituationId, setCurrentSituationId] = useState(SITUATIONS[0].id);
   const [selectedEmotion, setSelectedEmotion] = useState<string | null>(null);
+  const addEmotionTrigger = useEmotionStore((s) => s.addEmotionTrigger);
 
   const currentSituation = SITUATIONS.find((s) => s.id === currentSituationId) || SITUATIONS[0];
 
@@ -16,6 +19,9 @@ export default function Situations() {
 
   const handleEmotionClick = (emotionId: string) => {
     setSelectedEmotion(emotionId);
+    addEmotionTrigger(currentSituationId, emotionId);
+    const emotion = EMOTIONS.find((e) => e.id === emotionId);
+    if (emotion) speakText(`你选择了${emotion.name}。${currentSituation.knowledge.slice(0, 40)}`);
   };
 
   const handleRandomSituation = () => {

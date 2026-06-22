@@ -17,6 +17,20 @@ const menuItems: MenuItem[] = [
     shadow: 'shadow-pink-200',
   },
   {
+    title: '情绪故事',
+    emoji: '📖',
+    path: '/emotion-stories',
+    gradient: 'from-orange-300 via-amber-400 to-yellow-400',
+    shadow: 'shadow-orange-200',
+  },
+  {
+    title: '互动问答',
+    emoji: '🧠',
+    path: '/emotion-quiz',
+    gradient: 'from-cyan-300 via-sky-400 to-blue-400',
+    shadow: 'shadow-cyan-200',
+  },
+  {
     title: '情境模拟',
     emoji: '🎭',
     path: '/situations',

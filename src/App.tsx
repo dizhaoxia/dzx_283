@@ -6,6 +6,8 @@ import EmotionWheel from "@/pages/EmotionWheel";
 import BreathingExercise from "@/pages/BreathingExercise";
 import MoodDiary from "@/pages/MoodDiary";
 import ParentDashboard from "@/pages/ParentDashboard";
+import EmotionStories from "@/pages/EmotionStories";
+import EmotionQuiz from "@/pages/EmotionQuiz";
 
 export default function App() {
   return (
@@ -18,6 +20,8 @@ export default function App() {
         <Route path="/breathing" element={<BreathingExercise />} />
         <Route path="/diary" element={<MoodDiary />} />
         <Route path="/parent-dashboard" element={<ParentDashboard />} />
+        <Route path="/emotion-stories" element={<EmotionStories />} />
+        <Route path="/emotion-quiz" element={<EmotionQuiz />} />
       </Routes>
     </Router>
   );
