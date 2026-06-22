@@ -19,7 +19,8 @@ export default function MoodDiary() {
   const isDrawingRef = useRef(false);
   const lastPosRef = useRef<{ x: number; y: number } | null>(null);
 
-  const { addDiaryEntry, getDiaryEntry, diaryEntries } = useEmotionStore();
+  const addDiaryEntry = useEmotionStore((state) => state.addDiaryEntry);
+  const diaryEntries = useEmotionStore((state) => state.diaryEntries);
 
   const today = new Date();
   const [viewYear, setViewYear] = useState(today.getFullYear());
@@ -115,7 +116,7 @@ export default function MoodDiary() {
   };
 
   const days = getMonthDays(viewYear, viewMonth);
-  const selectedEntry = getDiaryEntry(selectedDate);
+  const selectedEntry = diaryEntries.find((e) => e.date === selectedDate);
 
   const prevMonth = () => {
     if (viewMonth === 0) {
@@ -295,7 +296,7 @@ export default function MoodDiary() {
                 if (!dateStr) {
                   return <div key={idx} className="aspect-square" />;
                 }
-                const entry = getDiaryEntry(dateStr);
+                const entry = diaryEntries.find((e) => e.date === dateStr);
                 const emotion = entry ? getEmotionById(entry.emotionId) : null;
                 const isSelected = dateStr === selectedDate;
                 const isToday = dateStr === getTodayStr();

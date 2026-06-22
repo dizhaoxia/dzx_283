@@ -5,7 +5,6 @@ import NavBar from '@/components/NavBar';
 import { useEmotionStore } from '@/store/useEmotionStore';
 
 const WEEKDAY_NAMES = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-
 const RANK_BADGES = ['🥇', '🥈', '🥉'];
 
 function getWeekday(dateStr: string) {
@@ -21,12 +20,34 @@ function getTodayStr() {
   return new Date().toISOString().split('T')[0];
 }
 
-export default function ParentDashboard() {
-  const weeklyEmotions = useEmotionStore((s) => s.getWeeklyEmotions());
-  const diaryEntries = useEmotionStore((s) => s.diaryEntries);
-  const getDiaryEntry = useEmotionStore((s) => s.getDiaryEntry);
+function computeWeeklyEmotions(diaryEntries: DiaryEntry[]) {
+  const result: { date: string; emotionId: string }[] = [];
+  const today = new Date();
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date(today);
+    date.setDate(date.getDate() - i);
+    const dateStr = date.toISOString().split('T')[0];
+    const entry = diaryEntries.find((e) => e.date === dateStr);
+    result.push({
+      date: dateStr,
+      emotionId: entry?.emotionId || '',
+    });
+  }
+  return result;
+}
 
-  const todayEntry = getDiaryEntry(getTodayStr());
+export default function ParentDashboard() {
+  const diaryEntries = useEmotionStore((state) => state.diaryEntries);
+
+  const weeklyEmotions = useMemo(
+    () => computeWeeklyEmotions(diaryEntries),
+    [diaryEntries]
+  );
+
+  const todayEntry = useMemo(() => {
+    const todayStr = getTodayStr();
+    return diaryEntries.find((e) => e.date === todayStr);
+  }, [diaryEntries]);
 
   const chartOption = useMemo(() => {
     const categories = weeklyEmotions.map((item) => getWeekday(item.date));

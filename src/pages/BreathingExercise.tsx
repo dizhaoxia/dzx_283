@@ -17,7 +17,8 @@ const phaseBallColors: Record<string, string> = {
 };
 
 export default function BreathingExercise() {
-  const { breathingStats, incrementBreathingStar } = useEmotionStore();
+  const breathingStats = useEmotionStore((state) => state.breathingStats);
+  const incrementBreathingStar = useEmotionStore((state) => state.incrementBreathingStar);
   const [isRunning, setIsRunning] = useState(false);
   const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
   const [countdown, setCountdown] = useState(0);
